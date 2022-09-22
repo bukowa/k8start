@@ -11,8 +11,14 @@ spec:
     targetRevision: 4.2.5
     helm:
       releaseName: ingress-nginx
-      valueFiles:
-        - nginx-ingress.values.yaml
+      values: |
+        controller:
+          service:
+            annotations:
+              service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: 'true'
+              service.beta.kubernetes.io/do-loadbalancer-hostname: "only-for-internal-use.devit.ovh"
+          config:
+            use-proxy-protocol: 'true'
   destination:
     server: "https://kubernetes.default.svc"
     namespace: ingress-nginx
