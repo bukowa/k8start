@@ -1,0 +1,21 @@
+# ingress-nginx-4.2.5     1.3.1
+
+controller:
+  service:
+    annotations:
+      service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: 'true'
+      # https://github.com/digitalocean/digitalocean-cloud-controller-manager/blob/master/docs/controllers/services/examples/README.md#accessing-pods-over-a-managed-load-balancer-from-inside-the-cluster
+      # otherwise cert manager won't work, workaround may be also passing google dns to cert-manager installation
+      service.beta.kubernetes.io/do-loadbalancer-hostname: "only-for-internal-use.devit.ovh"
+  config:
+    use-proxy-protocol: 'true'
+#  extraArgs:
+     # this can be default wildcard cert
+#    default-ssl-certificate: "ingress-nginx/tls-default"
+  resources:
+#    limits:
+#      cpu: 1
+#      memory: 90Mi
+    requests:
+      cpu: 0.1
+      memory: 90Mi
