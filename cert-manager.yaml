@@ -16,6 +16,9 @@ spec:
       parameters:
         - name: installCRDs
           value: 'true'
+      values: |
+        startupapicheck:
+          enabled: false
   destination:
     server: "https://kubernetes.default.svc"
     namespace: cert-manager
