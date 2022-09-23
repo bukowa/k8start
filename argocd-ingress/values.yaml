@@ -2,5 +2,4 @@ namespace: argocd
 name: argocd-ingress
 cluster_issuer: "letsencrypt-production-http01"
 host: argocd.devit.ovh
-grpc_host: argocd-grpc.devit.ovh
 cert_secret: argocd-secret # do not change, this is provided by Argo CD

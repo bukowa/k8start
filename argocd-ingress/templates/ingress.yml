@@ -23,30 +23,3 @@ spec:
                 name: argocd-server
                 port:
                   name: https
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: argocd-server-grpc-ingress
-  namespace: {{ .Values.namespace }}
-  annotations:
-    cert-manager.io/cluster-issuer: {{ .Values.cluster_issuer }}
-    nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - {{ .Values.grpc_host }}
-      secretName: {{ .Values.cert_secret}}
-  rules:
-    - host: {{ .Values.grpc_host }}
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: argocd-server
-                port:
-                  name: https
----
