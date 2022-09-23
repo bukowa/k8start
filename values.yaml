@@ -18,6 +18,9 @@ cert_manager:
       value: 'true'
 #  values: |
 
+cert_manager_issuers:
+  name: issuers
+
 ingress:
   name: nginx-ingress
   namespace: nginx-ingress
