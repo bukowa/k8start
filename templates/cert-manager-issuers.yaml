@@ -17,9 +17,13 @@ spec:
     repoURL: {{ .Values.spec.source.repoURL }}
     targetRevision: {{ .Values.spec.source.targetRevision }}
     helm:
+      {{- if .Values.cert_manager_issuers.parameters }}
       parameters:
-        - name: namespace
-          value: {{ .Values.cert_manager.namespace }}
+      {{- range .Values.cert_manager_issuers.parameters }}
+        - name: {{.name}}
+          value: {{.value | quote}}
+      {{- end }}
+      {{- end}}
 
   syncPolicy:
     automated: { }

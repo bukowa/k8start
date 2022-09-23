@@ -19,7 +19,25 @@ cert_manager:
 #  values: |
 
 cert_manager_issuers:
-  name: issuers
+  name: cert-manager-issuers
+  parameters:
+    - name: name
+      value: issuers
+    - name: cluster_issuer
+      value: &cluster_issuer "letsencrypt-production-http01"
+
+http_check:
+  name: http-check
+  namespace: &http-check-namespace http-check
+  parameters:
+    - name: name
+      value: "http-check"
+    - name: namespace
+      value: *http-check-namespace
+    - name: host
+      value: "httpcheck.devit.ovh"
+    - name: cluster_issuer
+      value: *cluster_issuer
 
 ingress:
   name: nginx-ingress

@@ -1,21 +1,29 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: httpcheck
-  namespace: argocd
+  name: {{ .Values.http_check.name }}
+  namespace: {{.Values.argocd.namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "2"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: httpcheck
+    namespace: {{ .Values.http_check.namespace }}
     server: {{ .Values.spec.destination.server }}
-  project: default
+  project: {{ .Values.argocd.project }}
   source:
-    path: httpcheck
+    path: http-check
     repoURL: {{ .Values.spec.source.repoURL }}
     targetRevision: {{ .Values.spec.source.targetRevision }}
+    helm:
+      {{- if .Values.http_check.parameters }}
+      parameters:
+      {{- range .Values.http_check.parameters }}
+        - name: {{.name}}
+          value: {{.value | quote}}
+      {{- end }}
+      {{- end}}
 
   syncPolicy:
     automated: { }

@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: "httpcheck"
+  name: {{ .Values.namespace}}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "httpcheck"
-  namespace: "httpcheck"
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace}}
 spec:
-  replicas: 2
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
       app: app
@@ -27,37 +27,37 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: "httpcheck"
-  namespace: "httpcheck"
+  name: {{ .Values.name}}
+  namespace: {{ .Values.namespace }}
 spec:
   ports:
     - port: 8080
       targetPort: 8080
-      name: headers
+      name: "headers"
   selector:
     app: app
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: "httpcheck"
-  namespace: "httpcheck"
+  name: {{ .Values.name}}
+  namespace: {{ .Values.namespace }}
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-production-http01"
+    cert-manager.io/cluster-issuer: {{ .Values.cluster_issuer }}
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - httpcheck.devit.ovh
-      secretName: "httpcheck-cert"
+        - {{ .Values.host}}
+      secretName: {{ .Values.cert_secret}}
   rules:
-    - host: httpcheck.devit.ovh
+    - host: {{ .Values.host}}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: "httpcheck"
+                name: {{ .Values.name}}
                 port:
                   name: "headers"
