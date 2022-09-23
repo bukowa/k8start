@@ -19,7 +19,7 @@ spec:
       parameters:
       {{- range .Values.cert_manager.parameters }}
         - name: {{.name}}
-          value: {{.value}}
+          value: {{.value | quote}}
       {{- end }}
       {{- end}}
       {{ if .Values.cert_manager.values}}
