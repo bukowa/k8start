@@ -3,4 +3,4 @@ spec:
     server: https://kubernetes.default.svc
   source:
     repoURL: https://github.com/bukowa/k8start
-    targetRevision: apps
+    targetRevision: HEAD
