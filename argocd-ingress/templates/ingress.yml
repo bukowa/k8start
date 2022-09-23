@@ -5,11 +5,9 @@ metadata:
   namespace: {{ .Values.namespace }}
   annotations:
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     cert-manager.io/cluster-issuer: {{ .Values.cluster_issuer }}
-    # If you encounter a redirect loop or are getting a 307 response code
-    # then you need to force the nginx ingress to connect to the backend using HTTPS.
-    #
-    #nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   ingressClassName: nginx
   tls:
@@ -24,6 +22,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: argocd-server-tls
+                name: argocd-server
                 port:
                   name: https
