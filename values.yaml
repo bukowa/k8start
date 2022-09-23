@@ -31,4 +31,4 @@ ingress:
       config:
         use-proxy-protocol: 'true'
       extraArgs:
-        enable-ssl-passthrough
+        enable-ssl-passthrough: ""
