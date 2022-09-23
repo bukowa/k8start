@@ -7,7 +7,7 @@ spec:
 
 argocd:
   project: default
-  namespace: argocd
+  namespace: &argocd-namespace argocd
 
 cert_manager:
   name: cert-manager
@@ -25,6 +25,17 @@ cert_manager_issuers:
       value: issuers
     - name: cluster_issuer
       value: &cluster_issuer "letsencrypt-production-http01"
+
+argocd_ingress:
+  name: argocd-ingress
+  namespace: *argocd-namespace
+  parameters:
+    - name: cluster_issuer
+      value: *cluster_issuer
+    - name: host
+      value: argocd.devit.ovh
+    - name: namespace
+      value: *argocd-namespace
 
 http_check:
   name: http-check

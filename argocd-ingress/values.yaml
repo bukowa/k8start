@@ -1,0 +1,5 @@
+namespace: argocd
+name: argocd-ingress
+cluster_issuer: "letsencrypt-production-http01"
+host: argocd.devit.ovh
+cert_secret: argocd-tls
