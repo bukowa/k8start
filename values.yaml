@@ -62,4 +62,5 @@ ingress:
           service.beta.kubernetes.io/do-loadbalancer-hostname: "only-for-internal-use.devit.ovh"
       config:
         use-proxy-protocol: 'true'
-
+      extraArgs:
+        enable-ssl-passthrough: ""
