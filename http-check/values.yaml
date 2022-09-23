@@ -3,4 +3,4 @@ namespace: http-check
 cert_secret: http-check
 replicas: 2
 cluster_issuer: "letsencrypt-production-http01"
-host: "httpcheck.devit.ovh"
+host: "http.devit.ovh"

@@ -33,7 +33,7 @@ argocd_ingress:
     - name: cluster_issuer
       value: *cluster_issuer
     - name: host
-      value: argocd.devit.ovh
+      value: "argo.devit.ovh"
     - name: namespace
       value: *argocd-namespace
 
@@ -46,7 +46,7 @@ http_check:
     - name: namespace
       value: *http-check-namespace
     - name: host
-      value: "httpcheck.devit.ovh"
+      value: "http.devit.ovh"
     - name: cluster_issuer
       value: *cluster_issuer
 
