@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: "example"
+  name: "httpcheck"
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: "example"
-  namespace: "example"
+  name: "httpcheck"
+  namespace: "httpcheck"
 spec:
   selector:
     matchLabels:
@@ -18,45 +18,45 @@ spec:
         app: app
     spec:
       containers:
-        - name: nginx
-          image: "nginx:alpine"
+        - name: headers
+          image: quay.io/examples/go-http-headers:master
           ports:
-            - containerPort: 80
+            - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: "example"
-  namespace: "example"
+  name: "httpcheck"
+  namespace: "httpcheck"
 spec:
   ports:
-    - name: "nginx"
-      port: 80
-      targetPort: 80
+    - port: 8080
+      targetPort: 8080
+      name: headers
   selector:
     app: app
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: "example"
-  namespace: "example"
+  name: "httpcheck"
+  namespace: "httpcheck"
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-production-http01"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - example.devit.ovh
-      secretName: "example-cert"
+        - httpcheck.devit.ovh
+      secretName: "httpcheck-cert"
   rules:
-    - host: example.devit.ovh
+    - host: httpcheck.devit.ovh
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: "example"
+                name: "httpcheck"
                 port:
-                  name: "nginx"
+                  name: "headers"

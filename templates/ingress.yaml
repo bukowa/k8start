@@ -24,7 +24,7 @@ spec:
           config:
             use-proxy-protocol: 'true'
   destination:
-    server: "https://kubernetes.default.svc"
+    server: {{ .Values.spec.destination.server }}
     namespace: ingress-nginx
 
   syncPolicy:

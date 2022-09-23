@@ -1,3 +1,7 @@
+https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/
+
+https://github.com/argoproj/argocd-example-apps/tree/master/apps
+
 Ignoring resources, for ex. cilium while using DigitalOcean:
 https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#resource-exclusioninclusion
 
