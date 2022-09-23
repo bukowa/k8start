@@ -19,10 +19,11 @@ spec:
         - name: installCRDs
           value: 'true'
   destination:
-    server: "https://kubernetes.default.svc"
+    server: {{ .Values.spec.destination.server }}
     namespace: cert-manager
 
   syncPolicy:
-    automated: { }
+    automated:
+      prune: true
     syncOptions:
       - CreateNamespace=true
