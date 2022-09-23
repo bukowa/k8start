@@ -4,3 +4,31 @@ spec:
   source:
     repoURL: https://github.com/bukowa/k8start
     targetRevision: HEAD
+
+argocd:
+  project: default
+  namespace: argocd
+
+cert_manager:
+  name: cert-manager
+  namespace: cert-manager
+  chartVersion: v1.9.1
+  parameters:
+    - name: installCRDs
+      value: 'true'
+#  values: |
+
+ingress:
+  name: nginx-ingress
+  namespace: nginx-ingress
+  chartVersion: 4.2.5
+  values: |
+    controller:
+      service:
+        annotations:
+          service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: 'true'
+          service.beta.kubernetes.io/do-loadbalancer-hostname: "only-for-internal-use.devit.ovh"
+      config:
+        use-proxy-protocol: 'true'
+      extraArgs:
+        enable-ssl-passthrough

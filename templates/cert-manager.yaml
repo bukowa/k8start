@@ -1,26 +1,33 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager
-  namespace: argocd
+  name: {{ .Values.cert_manager.name }}
+  namespace: {{ .Values.argocd.namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
+  project: {{ .Values.argocd.project }}
   source:
     chart: cert-manager
     repoURL: https://charts.jetstack.io
-    targetRevision: v1.9.1
+    targetRevision: {{ .Values.cert_manager.chartVersion }}
     helm:
       releaseName: cert-manager
+      {{- if .Values.cert_manager.parameters }}
       parameters:
-        - name: installCRDs
-          value: 'true'
+      {{- range .Values.cert_manager.parameters }}
+        - name: {{.name}}
+          value: {{.value}}
+      {{- end }}
+      {{- end}}
+      {{ if .Values.cert_manager.values}}
+      values: {{ toYaml .Values.cert_manager.values | indent 6 }}
+      {{ end}}
   destination:
     server: {{ .Values.spec.destination.server }}
-    namespace: cert-manager
+    namespace: {{ .Values.cert_manager.namespace}}
 
   syncPolicy:
     automated:
