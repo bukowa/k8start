@@ -4,7 +4,6 @@ metadata:
   name: argocd-server-ingress
   namespace: {{ .Values.namespace }}
   annotations:
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     cert-manager.io/cluster-issuer: {{ .Values.cluster_issuer }}
     # If you encounter a redirect loop or are getting a 307 response code
