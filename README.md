@@ -18,3 +18,9 @@ argocd app create starter --repo https://github.com/bukowa/k8start.git --dest-se
 argocd app sync starter
 ```
 3. Point DNS A records to LoadBalancer.
+
+
+Debug helm template;
+```
+helm template --debug .
+```
