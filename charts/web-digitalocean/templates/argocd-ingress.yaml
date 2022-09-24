@@ -13,7 +13,7 @@ spec:
     server: {{ .Values.spec.destination.server }}
   project: {{ .Values.argocd.project }}
   source:
-    path: argocd-ingress
+    path: charts/web-digitalocean/argocd-ingress
     repoURL: {{ .Values.spec.source.repoURL }}
     targetRevision: {{ .Values.spec.source.targetRevision }}
     helm:
