@@ -3,7 +3,7 @@ spec:
     server: https://kubernetes.default.svc
   source:
     repoURL: https://github.com/bukowa/k8start
-    targetRevision: HEAD
+    targetRevision: web-digitalocean-0.0.3
 
 argocd:
   project: default
