@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  web-digitalocean:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2022-09-24T14:29:35.343187135Z"
+    description: kubernetes web starter for digitalocean
+    digest: d7e5f0fe87d74a60d0c875e48c6ab19dd25f23c201473ee988f17e9a0f71b9e4
+    name: web-digitalocean
+    type: application
+    urls:
+    - https://github.com/bukowa/k8start/releases/download/web-digitalocean-0.0.1/web-digitalocean-0.0.1.tgz
+    version: 0.0.1
+generated: "2022-09-24T14:29:35.343191635Z"
