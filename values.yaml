@@ -60,6 +60,8 @@ ingress:
         annotations:
           service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: 'true'
           service.beta.kubernetes.io/do-loadbalancer-hostname: "only-for-internal-use.devit.ovh"
+          service.beta.kubernetes.io/do-loadbalancer-name: "k8start"
+          kubernetes.digitalocean.com/load-balancer-id: "k8start"
       config:
         use-proxy-protocol: 'true'
       extraArgs:
