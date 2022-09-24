@@ -18,6 +18,13 @@ spec:
       {{ if .Values.ingress.values}}
       values: {{ toYaml .Values.ingress.values | indent 6 }}
       {{ end}}
+      {{- if .Values.ingress.parameters }}
+      parameters:
+      {{- range .Values.ingress.parameters }}
+        - name: {{.name}}
+          value: {{.value | quote}}
+      {{- end }}
+      {{- end}}
   destination:
     server: {{ .Values.spec.destination.server }}
     namespace: {{ .Values.ingress.namespace }}
