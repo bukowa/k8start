@@ -1,12 +1,38 @@
+terraform {
+  required_providers {
+    digitalocean = {
+      source = "digitalocean/digitalocean"
+      version = "~> 2.0"
+    }
+    kubernetes = {
+      version = "~> 2.13.1"
+    }
+    helm = {
+      version = "~> 2.6.0"
+    }
+    argocd = {
+      source = "oboukili/argocd"
+      version = "~> 3.2.1"
+    }
+  }
+}
+
+output "argopass" {
+  value = local.argocdPass
+  sensitive = true
+}
+
 locals {
-  values = yamldecode(file("${path.module}/values.yaml"))
+  values = yamldecode(file("../../charts/web-digitalocean/values.yaml"))
   ingressValues = yamldecode(local.values["ingress"]["values"])
   kubeConfigPath = abspath(pathexpand("~/.kube/configs/k8start"))
+  argocdPass = data.kubernetes_secret.argopass.data["password"]
 }
 
 data "digitalocean_kubernetes_versions" "versions" {}
 
 resource "digitalocean_kubernetes_cluster" "starter" {
+  depends_on = [data.digitalocean_domain.default]
   name    = "k8s-starter"
   region  = "fra1"
   version = data.digitalocean_kubernetes_versions.versions.latest_version
@@ -19,6 +45,7 @@ resource "digitalocean_kubernetes_cluster" "starter" {
 }
 
 resource "local_sensitive_file" "kube_config" {
+  depends_on = [digitalocean_kubernetes_cluster.starter]
   filename = local.kubeConfigPath
   content = digitalocean_kubernetes_cluster.starter.kube_config[0].raw_config
 }
@@ -55,18 +82,16 @@ provider kubernetes {
 }
 
 data "kubernetes_secret" "argopass" {
+  depends_on = [helm_release.argocd]
   metadata {
     name = "argocd-initial-admin-secret"
     namespace = "argocd"
-  }
-  binary_data = {
-    "password" = ""
   }
 }
 
 provider "argocd" {
   username = "admin"
-  password = base64decode(data.kubernetes_secret.argopass.binary_data.password)
+  password = local.argocdPass
   port_forward = true
   port_forward_with_namespace = "argocd"
   server_addr = "localhost:8080"
@@ -79,27 +104,21 @@ provider "argocd" {
   }
 }
 
-resource "argocd_application" "test" {
-  depends_on = [helm_release.argocd]
-
+resource "argocd_application" "starter" {
   wait = true
-  timeouts {
-    create = "10m"
-  }
   metadata {
-    name = "test"
+    name = "starter"
     namespace = "argocd"
   }
   spec {
-    project = "default"
     source {
-      repo_url = "https://github.com/bukowa/k8start.git"
-      path = "."
+      repo_url = "https://github.com/bukowa/k8start/"
+      path = "charts/web-digitalocean"
       target_revision = "HEAD"
     }
     destination {
-      server = "https://kubernetes.default.svc"
-      namespace = "argocd"
+      server    = "https://kubernetes.default.svc"
+      namespace = "default"
     }
     sync_policy {
       automated = {
@@ -108,3 +127,51 @@ resource "argocd_application" "test" {
     }
   }
 }
+
+data "digitalocean_loadbalancer" "example" {
+  depends_on = [argocd_application.starter]
+  name = local.ingressValues["controller"]["service"]["annotations"]["service.beta.kubernetes.io/do-loadbalancer-name"]
+}
+
+data "digitalocean_domain" "default" {
+  name = "devit.ovh"
+}
+
+resource "digitalocean_record" "default" {
+  domain = data.digitalocean_domain.default.id
+  type = "A"
+  name = "*"
+  ttl = 30
+  value = data.digitalocean_loadbalancer.example.ip
+}
+
+#
+#resource "argocd_application" "test" {
+#  depends_on = [helm_release.argocd]
+#
+#  wait = true
+#  timeouts {
+#    create = "10m"
+#  }
+#  metadata {
+#    name = "test"
+#    namespace = "argocd"
+#  }
+#  spec {
+#    project = "default"
+#    source {
+#      repo_url = "https://github.com/bukowa/k8start.git"
+#      path = "."
+#      target_revision = "HEAD"
+#    }
+#    destination {
+#      server = "https://kubernetes.default.svc"
+#      namespace = "argocd"
+#    }
+#    sync_policy {
+#      automated = {
+#        self_heal = true
+#      }
+#    }
+#  }
+#}
