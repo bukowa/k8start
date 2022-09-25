@@ -120,6 +120,16 @@ resource "argocd_application" "starter" {
       repo_url = "https://github.com/bukowa/k8start/"
       path = "charts/web-digitalocean"
       target_revision = "HEAD"
+      helm {
+        parameter {
+          name = "http_check.parameters.host"
+          value = "http2.devit.ovh"
+        }
+        parameter {
+          name = "argocd_ingress.parameters.host"
+          value = "arg.devit.ovh"
+        }
+      }
     }
     destination {
       server    = "https://kubernetes.default.svc"
