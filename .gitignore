@@ -3,3 +3,4 @@
 *.tfstate*
 *.ignore.yaml
 terraform/wtf/*
+*.tfvars
