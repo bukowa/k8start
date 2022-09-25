@@ -14,41 +14,31 @@ cert_manager:
   namespace: cert-manager
   chartVersion: v1.9.1
   parameters:
-    - name: installCRDs
-      value: 'true'
+    installCRDs: 'true'
 #  values: |
 
 cert_manager_issuers:
   name: cert-manager-issuers
   parameters:
-    - name: name
-      value: issuers
-    - name: cluster_issuer
-      value: &cluster_issuer "letsencrypt-production-http01"
+    name: 'issuers'
+    cluster_issuer: &cluster_issuer "letsencrypt-production-http01"
 
 argocd_ingress:
   name: argocd-ingress
   namespace: *argocd-namespace
   parameters:
-    - name: cluster_issuer
-      value: *cluster_issuer
-    - name: host
-      value: "argo.devit.ovh"
-    - name: namespace
-      value: *argocd-namespace
+    cluster_issuer: *cluster_issuer
+    host: "argo.devit.ovh"
+    namespace: *argocd-namespace
 
 http_check:
   name: http-check
   namespace: &http-check-namespace http-check
   parameters:
-    - name: name
-      value: "http-check"
-    - name: namespace
-      value: *http-check-namespace
-    - name: host
-      value: "http.devit.ovh"
-    - name: cluster_issuer
-      value: *cluster_issuer
+    name: "http-check"
+    namespace: *http-check-namespace
+    host: "http.devit.ovh"
+    cluster_issuer: *cluster_issuer
 
 ingress:
   name: nginx-ingress

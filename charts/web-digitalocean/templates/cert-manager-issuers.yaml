@@ -19,9 +19,9 @@ spec:
     helm:
       {{- if .Values.cert_manager_issuers.parameters }}
       parameters:
-      {{- range .Values.cert_manager_issuers.parameters }}
-        - name: {{.name}}
-          value: {{.value | quote}}
+      {{- range $key, $value := .Values.cert_manager_issuers.parameters }}
+        - name: {{$key}}
+          value: {{$value | quote}}
       {{- end }}
       {{- end}}
 

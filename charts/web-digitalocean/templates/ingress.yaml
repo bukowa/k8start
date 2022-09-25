@@ -20,9 +20,9 @@ spec:
       {{ end}}
       {{- if .Values.ingress.parameters }}
       parameters:
-      {{- range .Values.ingress.parameters }}
-        - name: {{.name}}
-          value: {{.value | quote}}
+      {{- range $key, $value := .Values.ingress.parameters }}
+        - name: {{$key}}
+          value: {{$value | quote}}
       {{- end }}
       {{- end}}
   destination:

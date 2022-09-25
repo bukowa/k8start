@@ -17,9 +17,9 @@ spec:
       releaseName: cert-manager
       {{- if .Values.cert_manager.parameters }}
       parameters:
-      {{- range .Values.cert_manager.parameters }}
-        - name: {{.name}}
-          value: {{.value | quote}}
+      {{- range $key, $value := .Values.cert_manager.parameters }}
+        - name: {{$key}}
+          value: {{$value | quote}}
       {{- end }}
       {{- end}}
       {{ if .Values.cert_manager.values}}

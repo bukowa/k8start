@@ -19,9 +19,9 @@ spec:
     helm:
       {{- if .Values.argocd_ingress.parameters }}
       parameters:
-      {{- range .Values.argocd_ingress.parameters }}
-        - name: {{.name}}
-          value: {{.value | quote}}
+      {{- range $key, $value := .Values.argocd_ingress.parameters }}
+        - name: {{$key}}
+          value: {{$value | quote}}
       {{- end }}
       {{- end}}
 

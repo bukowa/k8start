@@ -19,9 +19,9 @@ spec:
     helm:
       {{- if .Values.http_check.parameters }}
       parameters:
-      {{- range .Values.http_check.parameters }}
-        - name: {{.name}}
-          value: {{.value | quote}}
+      {{- range $key, $value := .Values.http_check.parameters }}
+        - name: {{$key}}
+          value: {{$value | quote}}
       {{- end }}
       {{- end}}
 
