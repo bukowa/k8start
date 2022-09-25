@@ -1,5 +1,12 @@
 # main.tf
 
+data "terraform_remote_state" "cluster" {
+  backend = "local"
+  config = {
+    path = var.cluster_state
+  }
+}
+
 resource "random_password" "argo_password" {
   length = 16
   special = true
@@ -31,4 +38,8 @@ provider "helm" {
     client_certificate = local.cluster.client_certificate
     client_key = local.cluster.client_key
   }
+}
+
+locals {
+  cluster = data.terraform_remote_state.cluster.outputs.kube_config
 }
