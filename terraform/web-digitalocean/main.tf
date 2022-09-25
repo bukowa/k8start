@@ -68,7 +68,9 @@ resource "helm_release" "argocd" {
   version = "5.5.4"
   namespace = "argocd"
   create_namespace = true
-  values = []
+  values = [
+    file("values.yaml")
+  ]
   wait_for_jobs = true
   timeout = 300
 }
@@ -106,6 +108,9 @@ provider "argocd" {
 
 resource "argocd_application" "starter" {
   wait = true
+  timeouts {
+    create = "5m"
+  }
   metadata {
     name = "starter"
     namespace = "argocd"
