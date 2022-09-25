@@ -124,7 +124,7 @@ resource "argocd_application" "starter" {
         }
         parameter {
           name = "argocd_ingress.parameters.host"
-          value = "arg.devit.ovh"
+          value = "arg3.devit.ovh"
         }
       }
     }
@@ -135,6 +135,8 @@ resource "argocd_application" "starter" {
     sync_policy {
       automated = {
         self_heal = true
+        prune = false
+        allow_empty = false
       }
     }
   }
