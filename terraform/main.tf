@@ -5,7 +5,6 @@ module "cluster" {
 
 module "argocd" {
   source = "./argocd/helm"
-#  kube_config = module.cluster.kube_config
 }
 
 output "argo_password" {
