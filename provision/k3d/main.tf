@@ -28,6 +28,7 @@ resource "null_resource" "sd" {
 }
 
 resource "helm_release" "nginx" {
+  depends_on = [null_resource.sd]
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart = "ingress-nginx"
   name  = "ingress-nginx"
