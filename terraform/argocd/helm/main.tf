@@ -1,4 +1,3 @@
-# main.tf
 
 resource "random_password" "argo_password" {
   length = 16
@@ -23,14 +22,4 @@ resource "helm_release" "argocd" {
   }
   wait_for_jobs = true
   timeout = 300
-}
-
-provider "helm" {
-  kubernetes {
-    host = var.kube_config.host
-    cluster_ca_certificate = base64decode(var.kube_config.cluster_ca_certificate)
-    token = var.kube_config.token
-    client_certificate = var.kube_config.client_certificate
-    client_key = var.kube_config.client_key
-  }
 }
