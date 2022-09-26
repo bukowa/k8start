@@ -1,5 +1,9 @@
 # inputs.tf
 
-variable "cluster_state" {
-  default = "../../cluster/digitalocean/terraform.tfstate"
+variable "kube_config" {
+}
+
+variable "values" {
+  default = []
+  type = list(string)
 }

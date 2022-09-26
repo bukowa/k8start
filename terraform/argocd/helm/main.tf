@@ -1,15 +1,12 @@
 # main.tf
 
-data "terraform_remote_state" "cluster" {
-  backend = "local"
-  config = {
-    path = var.cluster_state
-  }
-}
-
 resource "random_password" "argo_password" {
   length = 16
   special = true
+}
+
+locals {
+  values = (length(var.values) > 0) ? var.values : [file("${path.module}/values.yaml")]
 }
 
 resource "helm_release" "argocd" {
@@ -19,9 +16,7 @@ resource "helm_release" "argocd" {
   version = "5.5.4"
   namespace = "argocd"
   create_namespace = true
-  values = [
-    file("values.yaml"),
-  ]
+  values = local.values
   set {
     name = "configs.secret.argocdServerAdminPassword"
     value = random_password.argo_password.bcrypt_hash
@@ -32,14 +27,10 @@ resource "helm_release" "argocd" {
 
 provider "helm" {
   kubernetes {
-    host = local.cluster.host
-    cluster_ca_certificate = base64decode(local.cluster.cluster_ca_certificate)
-    token = local.cluster.token
-    client_certificate = local.cluster.client_certificate
-    client_key = local.cluster.client_key
+    host = var.kube_config.host
+    cluster_ca_certificate = base64decode(var.kube_config.cluster_ca_certificate)
+    token = var.kube_config.token
+    client_certificate = var.kube_config.client_certificate
+    client_key = var.kube_config.client_key
   }
-}
-
-locals {
-  cluster = data.terraform_remote_state.cluster.outputs.kube_config
 }
