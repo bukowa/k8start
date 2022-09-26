@@ -1,6 +1,6 @@
 
 module "cluster" {
-  source = "cluster"
+  source = "./cluster"
   save_kube_config = true
   kube_config_path = "~/.kube/configs/k8start"
 }
