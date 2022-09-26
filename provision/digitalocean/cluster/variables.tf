@@ -1,7 +1,7 @@
 
 variable "save_kube_config" {
   type = bool
-  default = false
+  default = true
   description = "if true kubernetes config file will be saved to `kube_config_path`"
 }
 

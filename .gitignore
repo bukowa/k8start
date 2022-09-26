@@ -4,3 +4,4 @@
 *.ignore.yaml
 terraform/wtf/*
 *.tfvars
+terratests
