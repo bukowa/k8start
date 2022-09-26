@@ -20,6 +20,4 @@ resource "helm_release" "argocd" {
     name = "configs.secret.argocdServerAdminPassword"
     value = random_password.argo_password.bcrypt_hash
   }
-  wait_for_jobs = true
-  timeout = 300
 }
