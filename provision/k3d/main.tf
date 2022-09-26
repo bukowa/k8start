@@ -9,6 +9,7 @@ module "argocd" {
 
 provider "helm" {
   kubernetes {
+    config_context = "k3d-k8start"
     config_path = local.kube_config_path
   }
 }
