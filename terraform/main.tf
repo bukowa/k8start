@@ -5,10 +5,16 @@ module "cluster" {
 
 module "argocd" {
   source = "./argocd/helm"
-  kube_config = module.cluster.kube_config
+#  kube_config = module.cluster.kube_config
 }
 
 output "argo_password" {
   value = module.argocd.argo_password
   sensitive = true
+}
+
+provider "helm" {
+  kubernetes {
+    config_path = module.cluster.kube_config_path
+  }
 }
