@@ -26,6 +26,13 @@ resource "null_resource" "sd" {
   }
 }
 
+resource "helm_release" "nginx" {
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart = "ingress-nginx"
+  name  = "ingress-nginx"
+  wait_for_jobs = true
+}
+
 output "argo_password" {
   value = module.argocd.argo_password
   sensitive = true
