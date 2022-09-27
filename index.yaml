@@ -51,4 +51,15 @@ entries:
     urls:
     - https://github.com/bukowa/k8start/releases/download/web-digitalocean-0.0.1/web-digitalocean-0.0.1.tgz
     version: 0.0.1
-generated: "2022-09-25T11:19:11.948114282Z"
+  webstack:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2022-09-27T10:37:26.224529561Z"
+    description: kubernetes webstack playground
+    digest: ae5f6119f0d77dffff7470dd8df4cedb53fb20acc3ab2cc38f89daddc7e244de
+    name: webstack
+    type: application
+    urls:
+    - https://github.com/bukowa/k8start/releases/download/webstack-0.0.1-alpha/webstack-0.0.1-alpha.tgz
+    version: 0.0.1-alpha
+generated: "2022-09-27T10:37:26.224545061Z"
