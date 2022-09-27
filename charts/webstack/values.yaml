@@ -1,0 +1,29 @@
+ingress:
+  enabled: true
+  provider: "k3d"
+  providers:
+    digitalocean:
+        parameters:
+          controller.service.annotations.service.beta.kubernetes.io/do-loadbalancer-name: "k8start"
+          # required for cert-manager http acme solver to work
+          # https://github.com/digitalocean/digitalocean-cloud-controller-manager/blob/master/docs/controllers/services/examples/README.md#accessing-pods-over-a-managed-load-balancer-from-inside-the-cluster
+          service.beta.kubernetes.io/do-loadbalancer-hostname: "only-for-internal-use.devit.ovh"
+          controller.service.annotations.service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: 'true'
+          controller.service.config.use-proxy-protocol: 'true'
+#        values: |
+#          # empty file
+    k3d:
+        parameters:
+          controller.service.annotations.ingress.running.in.k3d.dummy: "true"
+#        values: |
+#          # empty file
+
+argocd:
+  project: "default"
+  namespace: "argocd"
+  spec:
+    destination:
+      server: https://kubernetes.default.svc
+    source:
+      repoURL: https://github.com/bukowa/k8start
+      targetRevision: HEAD

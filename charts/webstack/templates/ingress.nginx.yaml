@@ -1,0 +1,28 @@
+{{ if .Values.ingress.enabled}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Release.Name }}-ingress-nginx
+  namespace: {{ .Values.argocd.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: {{ .Values.argocd.project }}
+  source:
+    chart: ingress-nginx
+    repoURL: https://kubernetes.github.io/ingress-nginx
+    targetRevision: 4.2.5
+    helm:
+      releaseName: {{ .Release.Name }}-ingress-nginx
+      {{- template "argo.helm.values" index .Values.ingress.providers .Values.ingress.provider }}
+  destination:
+    server: {{ .Values.argocd.spec.destination.server }}
+    namespace: {{ .Release.Namespace }}
+
+  syncPolicy:
+    automated: { }
+    syncOptions:
+      - CreateNamespace=true
+{{end}}

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: webstack
+description: kubernetes webstack playground
+type: application
+version: 0.0.1-alpha
+appVersion: "0.1.0"
