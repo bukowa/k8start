@@ -8,6 +8,8 @@ server:
         clusters:
         - "*"
     # https://argo-cd.readthedocs.io/en/stable/operator-manual/health/#argocd-app
+    # keep in mind that YOU HAVE to use different sync waves in your application
+    # for that health check to work properly in terraform argocd `wait` option
     resource.customizations.health.argoproj.io_Application: |
       hs = {}
       hs.status = "Progressing"
