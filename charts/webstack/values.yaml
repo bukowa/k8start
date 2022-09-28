@@ -14,6 +14,10 @@ ingress:
 #          # empty file
     k3d:
         parameters:
+          controller.metrics.enabled: "true"
+          controller.podAnnotations:
+            "prometheus.io/scrape": "true"
+            "prometheus.io/port": "true"
           controller.service.annotations.ingress.running.in.k3d.dummy: "true"
 #        values: |
 #          # empty file
