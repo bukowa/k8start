@@ -19,7 +19,7 @@ spec:
       {{- template "argo.helm.values" index .Values.ingress.providers .Values.ingress.provider }}
   destination:
     server: {{ .Values.argocd.spec.destination.server }}
-    namespace: {{ .Release.Namespace }}
+    namespace: {{ .Values.argocd.spec.destination.namespace }}
 
   syncPolicy:
     automated: { }
