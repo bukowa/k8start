@@ -1,3 +1,9 @@
+cert_manager:
+  enabled: true
+#  parameters:
+#  values: |
+#    # empty file
+
 ingress:
   enabled: true
   provider: "k3d"

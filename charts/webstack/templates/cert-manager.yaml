@@ -1,0 +1,28 @@
+{{ if .Values.cert_manager.enabled}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Release.Name }}-cert-manager
+  namespace: {{ .Values.argocd.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: {{ .Values.argocd.project }}
+  source:
+    chart: cert-manager
+    repoURL: https://charts.jetstack.io
+    targetRevision: v1.9.1
+    helm:
+      releaseName: {{ .Release.Name }}-cert-manager
+      {{- template "argo.helm.values" .Values.cert_manager }}
+  destination:
+    server: {{ .Values.argocd.spec.destination.server }}
+    namespace: {{ .Values.argocd.spec.destination.namespace }}
+
+  syncPolicy:
+    automated: { }
+    syncOptions:
+      - CreateNamespace=true
+{{end}}
