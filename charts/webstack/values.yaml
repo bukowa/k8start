@@ -27,6 +27,7 @@ argocd:
   spec:
     destination:
       server: https://kubernetes.default.svc
+      namespace: "argocd"
     source:
       repoURL: https://github.com/bukowa/k8start
       targetRevision: HEAD
