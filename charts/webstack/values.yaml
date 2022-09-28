@@ -1,6 +1,7 @@
 cert_manager:
   enabled: true
-#  parameters:
+  parameters:
+    installCRDs: 'true'
 #  values: |
 #    # empty file
 
