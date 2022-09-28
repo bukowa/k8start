@@ -1,6 +1,14 @@
 
+variable "cluster_name" {
+  default = "k8start"
+}
+
 variable "kube_config_path" {
   default = ""
+}
+
+variable "kube_config_context" {
+  default = "k3d-k8start"
 }
 
 locals {

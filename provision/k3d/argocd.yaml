@@ -2,7 +2,11 @@ server:
   ingress:
     enabled: true
     ingressClassName: nginx
-    hosts:
-      - argo.mydev
     annotations:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    hosts: &hosts
+      - argo.mydev
+      - argo2.mydev
+    tls:
+      - secretName: argocd-secret
+        hosts: *hosts
