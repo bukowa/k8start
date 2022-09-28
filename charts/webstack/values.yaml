@@ -16,9 +16,8 @@ ingress:
         parameters:
           controller.service.annotations.ingress.running.in.k3d.dummy: "true"
           controller.metrics.enabled: "true"
-          controller.podAnnotations:
-            prometheus.io/scrape: "true"
-            prometheus.io/port: "true"
+          controller.podAnnotations."prometheus\.io/scrape": "true"
+          controller.podAnnotations."prometheus\.io/port": "10254"
 #        values: |
 #          # empty file
 
