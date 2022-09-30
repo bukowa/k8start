@@ -4,10 +4,6 @@ resource "random_password" "argo_password" {
   special = true
 }
 
-locals {
-  values = (length(var.values) > 0) ? var.values : [file("${path.module}/values.yaml")]
-}
-
 resource "helm_release" "argocd" {
   repository = "https://argoproj.github.io/argo-helm"
   chart = "argo-cd"
@@ -19,5 +15,13 @@ resource "helm_release" "argocd" {
   set {
     name = "configs.secret.argocdServerAdminPassword"
     value = random_password.argo_password.bcrypt_hash
+  }
+  dynamic "set" {
+    for_each = var.set
+    content {
+      name = set.value["name"]
+      value = set.value["value"]
+      type = set.value["type"]
+    }
   }
 }

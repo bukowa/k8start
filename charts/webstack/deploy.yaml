@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "webstack"
+  namespace: "argocd"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    repoURL: https://github.com/bukowa/k8start.git
+    path: charts/webstack
+    helm:
+      parameters:
+        - name: ingress.provider
+          value: k3d
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: false
+      allowEmpty: false
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
