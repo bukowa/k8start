@@ -16,7 +16,6 @@ jobs:
           fetch-depth: 0
 
       - name: test k3d
-        uses: helm/chart-releaser-action@v1.4.0
         env:
           TF_VAR_k3d_servers: 1
         run: |
