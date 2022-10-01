@@ -4,6 +4,9 @@ resource "null_resource" "k3d_cluster" {
     when = create
     interpreter = ["bash", "-c"]
     command = <<EOT
+              mkdir -p ${dirname(local.kube_config_path)} \
+              && touch ${local.kube_config_path} \
+              && KUBECONFIG="${local.kube_config_path}" \
               k3d cluster create ${var.cluster_name} \
               --servers=3 --k3s-arg='--disable=traefik@server:*' \
               -p '80:80@loadbalancer' -p '443:443@loadbalancer' \

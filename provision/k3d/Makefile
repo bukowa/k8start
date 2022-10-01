@@ -11,6 +11,9 @@ init:
 apply-cluster:
 	terraform apply --auto-approve --target=${TARGET_CLUSTER}
 
+destroy-cluster:
+	terraform destroy --auto-approve --target=${TARGET_CLUSTER}
+
 apply-argocd:
 	terraform apply --auto-approve --target=${TARGET_ARGOCD}
 
