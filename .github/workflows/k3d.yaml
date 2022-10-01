@@ -19,5 +19,5 @@ jobs:
         env:
           TF_VAR_k3d_servers: 1
         run: |
-          - apt install -y make
-          - make
+          make
+          
