@@ -8,7 +8,7 @@ variable "source_path" {
 }
 
 variable "source_target_revision" {
-  default = "HEAD"
+  default = "0.1.0"
 }
 
 variable "destination_server" {

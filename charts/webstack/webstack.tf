@@ -33,7 +33,7 @@ resource "kubernetes_manifest" "application_argocd_webstack" {
         }
         "path" = "charts/webstack"
         "repoURL" = "https://github.com/bukowa/k8start.git"
-        "targetRevision" = "HEAD"
+        "targetRevision" = "0.1.0"
       }
       "syncPolicy" = {
         "automated" = {

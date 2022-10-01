@@ -17,7 +17,7 @@ spec:
       parameters:
         - name: ingress.provider
           value: k3d
-    targetRevision: HEAD
+    targetRevision: 0.1.0
   syncPolicy:
     automated:
       prune: false
