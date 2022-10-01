@@ -18,6 +18,8 @@ jobs:
       - name: test k3d
         env:
           TF_VAR_k3d_servers: 1
+        working-directory:
+          ./provision/k3d
         run: |
           make
           
