@@ -3,6 +3,10 @@ variable "cluster_name" {
   default = "k8start"
 }
 
+variable "k3d_servers" {
+  default = 3
+}
+
 variable "kube_config_path" {
   default = ""
 }

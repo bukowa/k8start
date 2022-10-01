@@ -1,0 +1,23 @@
+name: Release Charts
+
+on:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  test_k3d:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: test k3d
+        uses: helm/chart-releaser-action@v1.4.0
+        env:
+          TF_VAR_k3d_servers: 1
+        run: |
+          - make

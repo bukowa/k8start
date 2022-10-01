@@ -8,7 +8,7 @@ resource "null_resource" "k3d_cluster" {
               && touch ${local.kube_config_path} \
               && KUBECONFIG="${local.kube_config_path}" \
               k3d cluster create ${var.cluster_name} \
-              --servers=3 --k3s-arg='--disable=traefik@server:*' \
+              --servers=${var.k3d_servers} --k3s-arg='--disable=traefik@server:*' \
               -p '80:80@loadbalancer' -p '443:443@loadbalancer' \
               --verbose
               EOT
