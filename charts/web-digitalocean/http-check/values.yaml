@@ -1,6 +1,0 @@
-name: http-check
-namespace: http-check
-cert_secret: http-check
-replicas: 2
-cluster_issuer: "letsencrypt-production-http01"
-host: "http.devit.ovh"
