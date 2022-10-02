@@ -1,0 +1,42 @@
+argo_workflows:
+  values: |
+    server:
+      extraArgs:
+        - --auth-mode=server
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+    #    annotations:
+    #      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        hosts: &hosts
+          - argoworkflow.mydev
+          - argoworkflow2.mydev
+    #    tls:
+    #      - secretName: argocd-secret
+    #        hosts: *hosts
+
+#  parameters:
+#    key: value
+
+argo_events:
+#  values: |
+#   empty value file
+#  parameters:
+#    key: value
+
+argo_rollouts:
+#  values: |
+#   empty value file
+#  parameters:
+#    key: value
+
+argocd:
+  project: "default"
+  namespace: "argocd"
+  spec:
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: "argostack"
+    source:
+      repoURL: https://github.com/bukowa/k8start
+      targetRevision: HEAD
