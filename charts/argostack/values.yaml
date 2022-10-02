@@ -25,7 +25,7 @@ argo_events:
 
 argo_rollouts:
   values: |
-    server:
+    dashboard:
       ingress:
         enabled: true
         ingressClassName: nginx
