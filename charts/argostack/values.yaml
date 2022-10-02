@@ -10,7 +10,6 @@ argo_workflows:
     #      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         hosts: &hosts
           - argoworkflow.mydev
-          - argoworkflow2.mydev
     #    tls:
     #      - secretName: argocd-secret
     #        hosts: *hosts
@@ -25,8 +24,19 @@ argo_events:
 #    key: value
 
 argo_rollouts:
-#  values: |
-#   empty value file
+  values: |
+    server:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+    #    annotations:
+    #      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        hosts: &hosts
+          - argorollouts.mydev
+    #    tls:
+    #      - secretName: argocd-secret
+    #        hosts: *hosts
+
 #  parameters:
 #    key: value
 
