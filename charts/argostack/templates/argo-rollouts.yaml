@@ -15,8 +15,7 @@ spec:
   source:
     chart: argo-rollouts
     repoURL: https://argoproj.github.io/argo-helm
-    # // todo update version to 2.21.1
-    targetRevision: 2.21.0
+    targetRevision: 2.21.1
     helm:
       releaseName: {{ .Release.Name }}
       {{- template "argo.helm.values" .Values.argo_rollouts }}
