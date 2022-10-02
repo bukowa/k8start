@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Release.Name }}-argo-rollouts
+  namespace: {{ .Values.argocd.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: {{ .Values.argocd.project }}
+  destination:
+    namespace: {{ .Values.argocd.spec.destination.namespace }}
+    server: {{ .Values.argocd.spec.destination.server }}
+  source:
+    chart: argo-rollouts
+    repoURL: https://argoproj.github.io/argo-helm
+    # // todo update version to 2.21.1
+    targetRevision: 2.21.0
+    helm:
+      releaseName: {{ .Release.Name }}
+      {{- template "argo.helm.values" .Values.argo_rollouts }}
+  syncPolicy:
+    automated: { }
+    syncOptions:
+      - CreateNamespace=true
