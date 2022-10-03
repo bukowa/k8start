@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: "event-one"
+  namespace: "argostack"
+spec:
+  template:
+    serviceAccountName: "event-one"
+  resource:
+    example:
+      namespace: ""
+      resource: "namespaces"
+      group: ""
+      version: "v1"
+      eventTypes: ["ADD", "DELETE", "UPDATE"]
