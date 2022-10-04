@@ -1,3 +1,0 @@
-controller:
-  extraArgs:
-    default-backend-service: argostack/argostack-argo-workflows-server

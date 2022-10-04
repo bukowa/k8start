@@ -17,12 +17,9 @@ spec:
     helm:
       releaseName: {{ .Release.Name }}-ingress-nginx
       {{- template "argo.helm.values" index .Values.ingress.providers .Values.ingress.provider }}
-      valueFiles:
-        - ingress.values.yaml
   destination:
     server: {{ .Values.argocd.spec.destination.server }}
     namespace: {{ .Values.argocd.spec.destination.namespace }}
-
   syncPolicy:
     automated: { }
     syncOptions:
