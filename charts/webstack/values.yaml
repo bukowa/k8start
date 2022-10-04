@@ -25,6 +25,7 @@ ingress:
           controller.metrics.enabled: "true"
           controller.podAnnotations."prometheus\.io/scrape": "true"
           controller.podAnnotations."prometheus\.io/port": "10254"
+          controller.config.enable-access-log-for-default-backend: "true"
 #        values: |
 #          # empty file
 
