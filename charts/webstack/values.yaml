@@ -26,10 +26,11 @@ ingress:
           controller.podAnnotations."prometheus\.io/scrape": "true"
           controller.podAnnotations."prometheus\.io/port": "10254"
           controller.config.enable-access-log-for-default-backend: "true"
-#        values: |
-#          controller:
-#            extraArgs:
-#              default-backend-service: argostack/argostack-argo-workflows-server
+        values: |
+          controller:
+            extraArgs:
+              # name of this service can be tricky
+              default-backend-service: webstack-http-headers
 
 http_headers:
   enabled: true
