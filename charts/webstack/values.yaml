@@ -31,6 +31,10 @@ ingress:
 #            extraArgs:
 #              default-backend-service: argostack/argostack-argo-workflows-server
 
+http_headers:
+  enabled: true
+
+
 argocd:
   project: "default"
   namespace: "argocd"
