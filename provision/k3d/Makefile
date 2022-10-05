@@ -23,17 +23,26 @@ apply-argocd:
 apply-webstack:
 	terraform apply --auto-approve --target=${TARGET_WEBSTACK}
 
+destroy-webstack:
+	terraform destroy --auto-approve --target=${TARGET_WEBSTACK}
+
 apply-prom:
 	terraform apply --auto-approve --target=${TARGET_PROM}
+
+destroy-prom:
+	terraform destroy --auto-approve --target=${TARGET_PROM}
 
 apply-loki:
 	terraform apply --auto-approve --target=${TARGET_LOKI}
 
+destroy-loki:
+	terraform destroy --auto-approve --target=${TARGET_LOKI}
+
 apply-promtail:
 	terraform apply --auto-approve --target=${TARGET_PROMTAIL}
 
-destroy-webstack:
-	terraform destroy --auto-approve --target=${TARGET_WEBSTACK}
+destroy-promtail:
+	terraform destroy --auto-approve --target=${TARGET_PROMTAIL}
 
 destroy:
 	terraform destroy
