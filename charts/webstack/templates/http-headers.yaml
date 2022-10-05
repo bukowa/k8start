@@ -1,0 +1,27 @@
+{{ if .Values.http_headers.enabled}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Release.Name }}-http-headers
+  namespace: {{ .Values.argocd.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: {{ .Values.argocd.project }}
+  source:
+    chart: http-headers
+    repoURL: https://bukowa.github.io/golang-http-headers/
+    targetRevision: 0.1.1
+    helm:
+      releaseName: {{ .Release.Name }}-http-headers
+      {{- template "argo.helm.values" .Values.http_headers }}
+  destination:
+    server: {{ .Values.argocd.spec.destination.server }}
+    namespace: {{ .Values.argocd.spec.destination.namespace }}
+  syncPolicy:
+    automated: { }
+    syncOptions:
+      - CreateNamespace=true
+{{end}}
