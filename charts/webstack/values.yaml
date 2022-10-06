@@ -37,6 +37,10 @@ ingress:
 http_headers:
   enabled: true
 
+default_backend:
+  enabled: true
+  parameters:
+    ingress.enabled: false
 
 argocd:
   project: "default"
