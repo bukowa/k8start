@@ -21,6 +21,7 @@ jobs:
         working-directory:
           ./provision/k3d
         run: |
+          set -x
           curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
           make || export MAKE_EXIT=$? 
           export KUBECONFIG=$(terraform output kube_config_path)
