@@ -21,7 +21,8 @@ spec:
     server: {{ .Values.argocd.spec.destination.server }}
     namespace: {{ .Values.argocd.spec.destination.namespace }}
   syncPolicy:
-    automated: { }
+    automated:
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
 {{end}}
