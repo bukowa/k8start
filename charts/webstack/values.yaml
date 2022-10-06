@@ -31,7 +31,8 @@ ingress:
             extraArgs:
               # name of this service can be tricky
               # if this backend is not reachable controller wont start
-              default-backend-service: webstack/webstack-default-backend
+              # todo find a better way to set this name into child chart
+              default-backend-service: webstack/webstack-default-backend-http-headers
 
 http_headers:
   enabled: true
