@@ -22,7 +22,7 @@ jobs:
           ./provision/k3d
         run: |
           set -x
-          kubectl version
+          kubectl version --client=true
           export TF_VAR_kube_config_path=$KUBECONFIG
           curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
           make || export MAKE_EXIT=$? 
