@@ -30,6 +30,8 @@ ingress:
           controller:
             extraArgs:
               # name of this service can be tricky
+              # if this backend is not reachable controller wont start with error
+              # No service with name webstack-http-headers found in namespace webstack
               default-backend-service: webstack/webstack-http-headers
 
 http_headers:
