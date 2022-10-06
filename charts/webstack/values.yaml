@@ -36,7 +36,14 @@ ingress:
 
 http_headers:
   enabled: true
-
+  values: |
+    ingress:
+      annotations:
+        # argocd default health check for ingress won't work in our case;
+        # our ingress controller is deployed after this ingress
+        # this should always sync after ingress controller
+        # i wonder if that will work
+        argocd.argoproj.io/sync-wave: "1"
 
 argocd:
   project: "default"
