@@ -22,7 +22,8 @@ spec:
     namespace: {{ .Values.argocd.spec.destination.namespace }}
 
   syncPolicy:
-    automated: { }
+    automated:
+      prune: true
     syncOptions:
       - CreateNamespace=true
 {{end}}
