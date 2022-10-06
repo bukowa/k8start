@@ -22,9 +22,10 @@ jobs:
           ./provision/k3d
         run: |
           set -x
+          kubectl version
+          export TF_VAR_kube_config_path=$KUBECONFIG
           curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
           make || export MAKE_EXIT=$? 
-          export KUBECONFIG=$(terraform output kube_config_path)
           kubectl get -A pods -o go-template='{{- range .items -}} {{$item := .}} {{- range .status.containerStatuses}} {{- if .state.waiting }} {{- $item.metadata.namespace}}  {{ $item.metadata.name}} {{- printf "\n" -}} {{end}}{{end}}{{end}}' | xargs -n 2 kubectl logs --namespace $1 $2
           kubectl get -A pods -o go-template='{{- range .items -}} {{$item := .}} {{- range .status.containerStatuses}} {{- if .state.waiting }} {{- $item.metadata.namespace}}  {{ $item.metadata.name}} {{ .state}}  {{- printf "\n============================\n" -}} {{end}}{{end}}{{end}}'
           exit $MAKE_EXIT
