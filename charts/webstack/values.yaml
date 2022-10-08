@@ -35,6 +35,7 @@ ingress:
               default-backend-service: webstack/webstack-default-backend-http-headers
             config:
               enable-access-log-for-default-backend: true
+              use-proxy-protocol: true
 
 http_headers:
   enabled: true
