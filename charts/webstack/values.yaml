@@ -38,6 +38,17 @@ ingress:
 
 http_headers:
   enabled: true
+  values: |
+    ingress:
+    hosts:
+      - host: http.mydev
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+      - host: http.local.devit.ovh
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
 
 default_backend:
   enabled: true
