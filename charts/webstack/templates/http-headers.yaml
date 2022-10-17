@@ -13,8 +13,8 @@ spec:
   project: {{ .Values.argocd.project }}
   source:
     chart: http-headers
-    repoURL: https://bukowa.github.io/http-headers/
-    targetRevision: 0.2.0
+    repoURL: https://bukowa.github.io/charts
+    targetRevision: 1.0.0
     helm:
       releaseName: {{ .Release.Name }}-http-headers
       {{- template "argo.helm.values" .Values.http_headers }}
