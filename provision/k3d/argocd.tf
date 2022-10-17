@@ -13,4 +13,5 @@ module "argocd" {
     file("../argocd/helm/values.yaml"),
     yamlencode(local.argocd_helm_values)
   ]
+  argo_password = var.argo_password
 }

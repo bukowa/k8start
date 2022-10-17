@@ -20,6 +20,9 @@ destroy-cluster:
 apply-argocd:
 	terraform apply --auto-approve --target=${TARGET_ARGOCD}
 
+destroy-argocd:
+	terraform destroy --auto-approve --target=${TARGET_ARGOCD}
+
 apply-webstack:
 	terraform apply --auto-approve --target=${TARGET_WEBSTACK}
 

@@ -1,3 +1,6 @@
+variable "argo_password" {
+  default = "adminadmin"
+}
 
 variable "cluster_name" {
   default = "k8start"

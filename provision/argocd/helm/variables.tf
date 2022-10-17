@@ -1,3 +1,6 @@
+variable "argo_password" {
+  default = "adminadmin"
+}
 
 variable "values" {
   default = []
