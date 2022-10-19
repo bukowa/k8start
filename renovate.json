@@ -4,6 +4,6 @@
     "config:base"
   ],
   "argocd": {
-    "fileMatch": ["^charts/.*/templates/.*\\.(yaml|yml)$"]
+    "fileMatch": ["\\.yaml$", "\\.yml$"]
   }
 }
