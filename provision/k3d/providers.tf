@@ -16,7 +16,7 @@ terraform {
       version = "~> 2.13.1"
     }
     helm = {
-      version = "~> 2.6.0"
+      version = "~> 2.7.0"
     }
   }
 
