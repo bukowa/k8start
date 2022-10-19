@@ -5,5 +5,14 @@
   ],
   "argocd": {
     "fileMatch": ["\\.yaml$", "\\.yml$"]
-  }
+  },
+  "regexManagers": [
+    {
+      "matchStrings": [
+        "source:\\n.*chart: (?<depName>.*)\\n.*repoURL: (?<registryUrl>.*)\\n.*targetRevision: (?<currentValue>.*)"
+      ],
+      "fileMatch": ["\\.yaml$", "\\.yml$"],
+      "datasourceTemplate": "helm"
+    }
+  ]
 }

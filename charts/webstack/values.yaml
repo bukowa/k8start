@@ -37,6 +37,10 @@ ingress:
               enable-access-log-for-default-backend: true
 
 http_headers:
+  source:
+    chart: http-headers
+    repoURL: https://bukowa.github.io/charts
+    targetRevision: 1.0.0
   enabled: true
   values: |
     ingress:
