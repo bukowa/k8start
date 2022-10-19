@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "*"
+      - 'renovate/**'
 
 jobs:
   test_k3d:
