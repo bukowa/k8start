@@ -14,7 +14,7 @@ spec:
   source:
     chart: http-headers
     repoURL: https://bukowa.github.io/charts
-    targetRevision: 1.0.0
+    targetRevision: 1.1.1
     helm:
       releaseName: {{ .Release.Name }}-http-headers
       {{- template "argo.helm.values" .Values.http_headers }}
