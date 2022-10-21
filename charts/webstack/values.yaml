@@ -28,6 +28,7 @@ ingress:
           controller.config.enable-access-log-for-default-backend: "true"
         values: |
           controller:
+            replicaCount: 3
             extraArgs:
               # name of this service can be tricky
               # if this backend is not reachable controller wont start
