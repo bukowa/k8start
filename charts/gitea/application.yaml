@@ -1,0 +1,65 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "gitea"
+  namespace: "argocd"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: gitea
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    repoURL: https://dl.gitea.io/charts/
+    chart: gitea
+    helm:
+      values: |
+        ingress:
+          enabled: true
+          className: "nginx"
+          annotations: {}
+          hosts:
+            - host: gitea.local
+              paths:
+                - path: /
+                  pathType: Prefix
+          tls: []
+        
+        persistence:
+          enabled: true
+          #existingClaim: "data-gitea-0"
+          size: 10Gi
+          accessModes:
+            - ReadWriteMany
+          labels: {}
+          annotations: {}
+          storageClass: nfs-csi
+          subPath: gitea
+        
+        postgresql:
+          persistence:
+            #existingClaim: "data-gitea-postgresql-0"
+            storageClass: nfs-csi
+            accessModes:
+              - ReadWriteMany
+        gitea:
+          ## @param gitea.admin.username Username for the Gitea admin user
+          ## @param gitea.admin.existingSecret Use an existing secret to store admin user credentials
+          ## @param gitea.admin.password Password for the Gitea admin user
+          ## @param gitea.admin.email Email for the Gitea admin user
+          admin:
+            #existingSecret: gitea-admin-secret
+            existingSecret:
+            username: gitea_admin
+            password: r8sA8CPHD9!bt6d
+            email: "gitea@local.domain"
+
+    targetRevision: 6.0.2
+  syncPolicy:
+    automated:
+      prune: false
+      allowEmpty: false
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
