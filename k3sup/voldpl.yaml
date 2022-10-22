@@ -15,7 +15,7 @@ kind: Deployment
 metadata:
   name: deployment-nfs4
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       name: deployment-nfs
@@ -29,7 +29,7 @@ spec:
         "kubernetes.io/os": linux
       containers:
         - name: deployment-nfs
-          image: alpine
+          image: ubuntu
           command:
             - "/bin/bash"
             - "-c"
