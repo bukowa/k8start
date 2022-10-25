@@ -1,0 +1,50 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: promstack
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: kube-prometheus-stack
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: "41.6.1"
+    helm:
+      skipCrds: true
+      releaseName: promstack
+      values: |
+        prometheus:
+          prometheusSpec:
+            storageSpec:
+              volumeClaimTemplate:
+                spec:
+                  storageClassName: longhorn
+                  accessModes: ["ReadWriteMany"]
+                  resources:
+                    requests:
+                      storage: 10Gi
+                #selector: {}
+        grafana:
+          ingress:
+            enabled: true
+            hosts:
+              - grafana.local
+            ingressClassName: nginx
+          adminPassword: admin
+          additionalDataSources:
+            - name: loki
+              type: loki
+              url: http://loki-loki-distributed-gateway
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: promstack
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

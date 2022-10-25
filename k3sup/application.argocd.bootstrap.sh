@@ -4,19 +4,20 @@ set -eux
 export NAMESPACE="argocd"
 export VERSION="5.6.3"
 export PASSWORD="admin"
-export ARGOCD_VALUES="$(<argocd.yaml)"
+#export ARGOCD_VALUES="$(<application.argocd.values.yaml)"
 
 helm repo add argo https://argoproj.github.io/argo-helm
 
 function install {
   kubectl create namespace ${NAMESPACE}
-  helm install --namespace ${NAMESPACE} argocd argo/argo-cd -f argocd.yaml --version=${VERSION} \
+  helm install --namespace ${NAMESPACE} argocd argo/argo-cd --version=${VERSION} \
     --set=configs.secret.argocdServerAdminPassword="$(htpasswd -nbBC 10 "" ${PASSWORD} | tr -d ':\n' | sed 's/$2y/$2a/')"
 }
 
 function self_manage {
   # https://github.com/mikefarah/yq/discussions/1164#discussioncomment-2559353
-  yq 'with(.. | select(. == "*${*-*}*"); . |= envsubst)' application.argocd.yaml | kubectl apply -f -
+#  yq 'with(.. | select(. == "*${*-*}*"); . |= envsubst)' application.argocd.yaml | kubectl apply -f -
+  kubectl apply -f application.argocd.yaml
 }
 
 function uninstall {

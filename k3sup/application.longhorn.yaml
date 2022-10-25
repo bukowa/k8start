@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: longhorn
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: longhorn
+    repoURL: https://charts.longhorn.io/
+    targetRevision: "1.3.2"
+    helm:
+      releaseName: longhorn
+      values: |
+        #defaultSettings:
+        #  defaultDataPath: /mnt/longhorn
+        ingress:
+          enabled: true
+
+          ## Add ingressClassName to the Ingress
+          ## Can replace the kubernetes.io/ingress.class annotation on v1.18+
+          ingressClassName: nginx
+
+          host: longhorn.local
+
+          ## Set this to true in order to enable TLS on the ingress record
+          tls: false
+
+          ## Enable this in order to enable that the backend service will be connected at port 443
+          secureBackends: false
+
+          ## If TLS is set to true, you must declare what secret will store the key/certificate for TLS
+          tlsSecret: longhorn.local-tls
+
+          ## If ingress is enabled you can set the default ingress path
+          ## then you can access the UI by using the following full path {{host}}+{{path}}
+          path: /
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: longhorn
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true

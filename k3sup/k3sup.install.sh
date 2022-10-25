@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eux
-source vars.sh
+source k3sup.vars.sh
+
+export KUBECONFIG="${PWD}/kubeconfig"
 
 function install {
     k3sup install \
@@ -41,10 +43,6 @@ kubectl patch deployment coredns  --type='merge' -p '{"spec":{"replicas":3}}' --
 kubectl patch deployment local-path-provisioner --type='merge' -p '{"spec":{"replicas":3}}' --namespace=kube-system
 kubectl patch deployment metrics-server --type='merge' -p '{"spec":{"replicas":3}}' --namespace=kube-system
 
-
-kubectl apply -f https://raw.githubusercontent.com/longhorn/longhorn/v1.3.2/deploy/prerequisite/longhorn-iscsi-installation.yaml
-kubectl apply -f https://raw.githubusercontent.com/longhorn/longhorn/v1.3.2/deploy/prerequisite/longhorn-nfs-installation.yaml
-#curl -sSfL https://raw.githubusercontent.com/longhorn/longhorn/v1.3.2/scripts/environment_check.sh | bash
 
 #        --k3s-extra-args='
 #            --no-deploy=traefik

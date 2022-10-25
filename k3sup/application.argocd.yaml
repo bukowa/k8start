@@ -10,14 +10,72 @@ spec:
   source:
     chart: argo-cd
     repoURL: https://argoproj.github.io/argo-helm
-    targetRevision: "${VERSION:-5.6.2}"
+    targetRevision: "5.6.2"
     helm:
       releaseName: argocd
       values: |
-        ${ARGOCD_VALUES:-#comment}
+        # ${ARGOCD_VALUES:-#comment}
+        controller:
+          replicas: 3
+
+        global:
+          additionalLabels:
+            argocd.argoproj.io/instance: argocd
+
+        repoServer:
+          replicas: 3
+
+        configs:
+          params:
+            server.enable.gzip: true
+
+        applicationSet:
+          replicaCount: 3
+
+        server:
+          replicas: 3
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            annotations:
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+            hosts: &hosts
+              - argo.local
+            tls:
+              - secretName: argocd-secret
+                hosts: *hosts
+
+          config:
+            resource.exclusions: |
+              - apiGroups:
+                - cilium.io
+                kinds:
+                - CiliumIdentity
+                clusters:
+                - "*"
+            # https://argo-cd.readthedocs.io/en/stable/operator-manual/health/#argocd-app
+            # keep in mind that YOU HAVE to use different sync waves in your application
+            # for that health check to work properly in terraform argocd `wait` option
+            # todo if not app of apps then skip
+            resource.customizations.health.argoproj.io_Application: |
+              hs = {}
+              hs.status = "Progressing"
+              hs.message = ""
+              if obj.status ~= nil then
+                if obj.status.health ~= nil then
+                  hs.status = obj.status.health.status
+                  if obj.status.health.message ~= nil then
+                    hs.message = obj.status.health.message
+                  end
+                end
+              end
+              return hs
+
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
   syncPolicy:
+    automated:
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
