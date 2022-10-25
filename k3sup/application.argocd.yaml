@@ -16,24 +16,24 @@ spec:
       values: |
         # ${ARGOCD_VALUES:-#comment}
         controller:
-          replicas: 3
+          replicas: 1
 
         global:
           additionalLabels:
             argocd.argoproj.io/instance: argocd
 
         repoServer:
-          replicas: 3
+          replicas: 1
 
         configs:
           params:
             server.enable.gzip: true
 
         applicationSet:
-          replicaCount: 3
+          replicaCount: 1
 
         server:
-          replicas: 3
+          replicas: 1
           ingress:
             enabled: true
             ingressClassName: nginx
