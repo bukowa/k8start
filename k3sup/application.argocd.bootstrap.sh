@@ -26,6 +26,11 @@ function uninstall {
   kubectl get customresourcedefinitions.apiextensions.k8s.io -o=json | jq -r '.items[] | .metadata.name' | grep .argoproj.io | xargs kubectl delete crd
 }
 
+if [[ ${1:-install} == "sm" ]]; then
+  self_manage
+  exit 0
+fi
+
 if [[ ${1:-install} == "rm" ]]; then
   uninstall
   exit 0
