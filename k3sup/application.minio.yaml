@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minio
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: minio
+    repoURL: "https://charts.bitnami.com/bitnami"
+    targetRevision: "11.10.12"
+    helm:
+      releaseName: minio
+      values: |
+        
+        metrics:
+          serviceMonitor:
+            enabled: true
+        
+        ingress:
+          enabled: true
+          ingressClassName: "nginx"
+
+        persistence:
+          enabled: true
+          storageClass: longhorn
+          accessModes:
+            - ReadWriteOnce
+          size: 4Gi
+
+        mode: "distributed"
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: minio
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
