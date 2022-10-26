@@ -31,7 +31,7 @@ spec:
 
         persistence:
           enabled: true
-          # existingClaim: "data-gitea-0"
+          #existingClaim: "data-gitea-0"
           size: 3Gi
           accessModes:
             - ReadWriteMany
@@ -43,7 +43,7 @@ spec:
         postgresql:
           persistence:
             size: 3Gi
-            # existingClaim: "data-gitea-postgresql-0"
+            #existingClaim: "data-gitea-postgresql-0"
             storageClass: longhorn
             accessModes:
               - ReadWriteMany
@@ -55,9 +55,9 @@ spec:
           ## @param gitea.admin.email Email for the Gitea admin user
           admin:
             #existingSecret: gitea-admin-secret
-            username: gitea_admin
+            username: bukowa
             password: r8sA8CPHD9!bt6d
-            email: "gitea@local.domain"
+            email: "gitbukowa@gmail.com"
 
   destination:
     server: https://kubernetes.default.svc
