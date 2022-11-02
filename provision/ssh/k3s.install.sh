@@ -44,4 +44,4 @@ join_agent "${SERVER1}" "${SERVER2}"
 join_agent "${SERVER1}" "${SERVER3}"
 join_agent "${SERVER1}" "${SERVER4}"
 
-scp root@"${SERVER1}":/etc/rancher/k3s/k3s.yaml pwd && sed -i "s/127.0.0.1/${SERVER1}/g" k3s.yaml && export KUBECONFIG=$PWD/k3s.yaml
+scp root@"${SERVER1}":/etc/rancher/k3s/k3s.yaml $(pwd) && sed -i "s/127.0.0.1/${SERVER1}/g" k3s.yaml && export KUBECONFIG=$PWD/k3s.yaml
