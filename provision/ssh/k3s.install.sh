@@ -13,28 +13,8 @@ ssh "root@${1}" "curl -sfL https://get.k3s.io | \
         --node-external-ip=${1}
         --flannel-backend=wireguard-native
         --flannel-external-ip
-        --kube-apiserver-arg=--default-not-ready-toleration-seconds=20
-        --kube-apiserver-arg=--default-unreachable-toleration-seconds=30
-        --kubelet-arg=--node-status-update-frequency=4s
-        --kube-controller-manager-arg=--node-monitor-period=2s
-        --kube-controller-manager-arg=--node-monitor-grace-period=20s
-        --kube-controller-manager-arg=--pod-eviction-timeout=5s
-        \" \
-        INSTALL_K3S_CHANNEL='stable' sh -"
-}
-
-# shellcheck disable=SC2029
-join_server() {
-ssh "root@${2}" "curl -sfL https://get.k3s.io | \
-  INSTALL_K3S_EXEC=\"
-        server
-        --server=https://${1}:6443
-        --token=${TOKEN}
-        --tls-san=${2}
-        --disable=traefik
-        --node-external-ip=${2}
-        --flannel-backend=wireguard-native
-        --flannel-external-ip
+        --kube-proxy-arg=--proxy-mode=ipvs
+        --kube-proxy-arg=--ipvs-strict-arp
         --kube-apiserver-arg=--default-not-ready-toleration-seconds=20
         --kube-apiserver-arg=--default-unreachable-toleration-seconds=30
         --kubelet-arg=--node-status-update-frequency=4s
@@ -52,6 +32,8 @@ ssh "root@${2}" "curl -sfL https://get.k3s.io | \
         --server=https://${1}:6443
         --token=${TOKEN}
         --node-external-ip=${2}
+        --kube-proxy-arg=--proxy-mode=ipvs
+        --kube-proxy-arg=--ipvs-strict-arp
         --kubelet-arg=--node-status-update-frequency=4s
         \" \
         INSTALL_K3S_CHANNEL='stable' sh -"
@@ -73,3 +55,30 @@ scp root@"${SERVER1}":/etc/rancher/k3s/k3s.yaml $(pwd) && sed -i "s/127.0.0.1/${
 
 kubectl rollout status deployment --namespace=kube-system coredns
 kubectl patch deployment coredns  --type='merge' -p '{"spec":{"replicas":4}}' --namespace=kube-system
+
+#kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.7/config/manifests/metallb-native.yaml
+helm install --version=4.3.0 nginx ingress-nginx/ingress-nginx --values ingress-nginx.values.deploy.yaml
+
+
+# shellcheck disable=SC2029
+#join_server() {
+#ssh "root@${2}" "curl -sfL https://get.k3s.io | \
+#  INSTALL_K3S_EXEC=\"
+#        server
+#        --server=https://${1}:6443
+#        --token=${TOKEN}
+#        --tls-san=${2}
+#        --disable=traefik
+#        --node-external-ip=${2}
+#        --flannel-backend=wireguard-native
+#        --flannel-external-ip
+#        --kube-proxy-arg=proxy-mode=ipvs
+#        --kube-apiserver-arg=--default-not-ready-toleration-seconds=20
+#        --kube-apiserver-arg=--default-unreachable-toleration-seconds=30
+#        --kubelet-arg=--node-status-update-frequency=4s
+#        --kube-controller-manager-arg=--node-monitor-period=2s
+#        --kube-controller-manager-arg=--node-monitor-grace-period=20s
+#        --kube-controller-manager-arg=--pod-eviction-timeout=5s
+#        \" \
+#        INSTALL_K3S_CHANNEL='stable' sh -"
+#}

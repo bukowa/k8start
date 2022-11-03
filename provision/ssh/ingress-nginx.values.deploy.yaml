@@ -1,0 +1,24 @@
+controller:
+
+  replicaCount: 4
+
+  service:
+    externalTrafficPolicy: "Local"
+    type: "NodePort"
+    nodePorts:
+      http: 31000
+      https: 32000
+      tcp:
+        8080: 33000
+#
+#  hostPort:
+#    enabled: false
+#    ports:
+#      http: 80
+#      https: 443
+
+  extraArgs:
+    watch-ingress-without-class: true
+
+  config:
+    proxy-body-size: 5000m
