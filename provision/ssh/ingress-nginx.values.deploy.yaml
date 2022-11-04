@@ -3,13 +3,14 @@ controller:
   replicaCount: 4
 
   service:
+    # preserve source ip
     externalTrafficPolicy: "Local"
-    type: "NodePort"
-    nodePorts:
-      http: 31000
-      https: 32000
-      tcp:
-        8080: 33000
+#    type: "NodePort"
+#    nodePorts:
+#      http: 31000
+#      https: 32000
+#      tcp:
+#        8080: 33000
 #
 #  hostPort:
 #    enabled: false
@@ -22,3 +23,4 @@ controller:
 
   config:
     proxy-body-size: 5000m
+    enable-access-log-for-default-backend: true
