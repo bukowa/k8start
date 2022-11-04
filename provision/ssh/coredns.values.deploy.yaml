@@ -35,6 +35,8 @@ servers:
       # Serves a /metrics endpoint on :9153, required for serviceMonitor
       - name: prometheus
         parameters: 0.0.0.0:9153
+      - name: file
+        parameters: /etc/coredns/baza baza
       - name: forward
         parameters: . tls://1.1.1.1 tls://1.0.0.1
         configBlock: |-
@@ -70,7 +72,13 @@ servers:
 extraConfig: {}
 
 # configure custom zone files as per https://coredns.io/2017/05/08/custom-dns-entries-for-kubernetes/
-zoneFiles: []
+zoneFiles:
+  - filename: baza
+    domain: baza
+    contents: |
+      baza.   IN SOA sns.dns.icann.com. noc.dns.icann.com. 2015082541 7200 3600 1209600 3600
+      *.baza.   IN A   192.168.0.220
+      *.*.baza. IN A   192.168.0.220
 #  - filename: example.db
 #    domain: example.com
 #    contents: |
