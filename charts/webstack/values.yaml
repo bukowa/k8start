@@ -41,7 +41,7 @@ http_headers:
   source:
     chart: http-headers
     repoURL: https://bukowa.github.io/charts
-    targetRevision: 1.2.0
+    targetRevision: 1.2.1
   enabled: true
   values: |
     ingress:
