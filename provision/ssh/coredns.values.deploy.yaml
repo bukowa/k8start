@@ -4,6 +4,17 @@ image:
   pullPolicy: IfNotPresent
 
 replicaCount: 4
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+            - key: app.kubernetes.io/name
+              operator: In
+              values:
+                - coredns
+        topologyKey: kubernetes.io/hostname
+
 serviceType: "LoadBalancer"
 isClusterService: false
 
@@ -37,6 +48,8 @@ servers:
         parameters: 0.0.0.0:9153
       - name: file
         parameters: /etc/coredns/baza baza
+      - name: file
+        parameters: /etc/coredns/doma doma
       - name: forward
         parameters: . tls://1.1.1.1 tls://1.0.0.1
         configBlock: |-
@@ -79,6 +92,12 @@ zoneFiles:
       baza.   IN SOA sns.dns.icann.com. noc.dns.icann.com. 2015082541 7200 3600 1209600 3600
       *.baza.   IN A   192.168.0.220
       *.*.baza. IN A   192.168.0.220
+  - filename: doma
+    domain: doma
+    contents: |
+      doma.   IN SOA sns.dns.icann.com. noc.dns.icann.com. 2015082541 7200 3600 1209600 3600
+      *.doma.   IN A   127.0.0.1
+      *.*.doma. IN A   127.0.0.1
 #  - filename: example.db
 #    domain: example.com
 #    contents: |
