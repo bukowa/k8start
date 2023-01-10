@@ -51,6 +51,11 @@ scp root@"${SERVER1}":/etc/rancher/k3s/k3s.yaml $(pwd) && sed -i "s/127.0.0.1/${
 kubectl rollout status deployment --namespace=kube-system coredns
 kubectl patch deployment coredns  --type='merge' -p '{"spec":{"replicas":4}}' --namespace=kube-system
 
+# add repos
+helm repo add coredns https://coredns.github.io/helm
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+
 helm install --version=4.3.0 nginx ingress-nginx/ingress-nginx --values ingress-nginx.values.deploy.yaml
 helm install --version=1.19.5 dns coredns/coredns --values coredns.values.deploy.yaml
 
