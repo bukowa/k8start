@@ -50,6 +50,8 @@ servers:
         parameters: /etc/coredns/baza baza
       - name: file
         parameters: /etc/coredns/doma doma
+      - name: file
+        parameters: /etc/coredns/localdev localdev
       - name: forward
         parameters: . tls://1.1.1.1 tls://1.0.0.1
         configBlock: |-
@@ -98,6 +100,14 @@ zoneFiles:
       doma.   IN SOA sns.dns.icann.com. noc.dns.icann.com. 2015082541 7200 3600 1209600 3600
       *.doma.   IN A   127.0.0.1
       *.*.doma. IN A   127.0.0.1
+  - filename: localdev
+    domain: localdev
+    contents: |
+      localdev.         IN SOA localdev. localdev. 2015082541 7200 3600 1209600 3600
+      *.localdev.       IN A   127.0.0.1
+      *.*.localdev.     IN A   127.0.0.1
+      *.*.*.localdev.   IN A   127.0.0.1
+      *.*.*.*.localdev. IN A   127.0.0.1
 #  - filename: example.db
 #    domain: example.com
 #    contents: |
