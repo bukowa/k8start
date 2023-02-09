@@ -1,9 +1,13 @@
+customAnnotations:
+  # increment to restart pod
+  my.revision: "1"
+
 image:
   repository: coredns/coredns
   tag: "1.9.3"
   pullPolicy: IfNotPresent
 
-replicaCount: 4
+replicaCount: 1
 affinity:
   podAntiAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
@@ -52,6 +56,8 @@ servers:
         parameters: /etc/coredns/doma doma
       - name: file
         parameters: /etc/coredns/localdev localdev
+      - name: file
+        parameters: /etc/coredns/localbuk localbuk
       - name: forward
         parameters: . tls://1.1.1.1 tls://1.0.0.1
         configBlock: |-
@@ -108,6 +114,14 @@ zoneFiles:
       *.*.localdev.     IN A   127.0.0.1
       *.*.*.localdev.   IN A   127.0.0.1
       *.*.*.*.localdev. IN A   127.0.0.1
+  - filename: localbuk
+    domain: localbuk
+    contents: |
+      localbuk.         IN SOA localbuk. localbuk. 2015082541 7200 3600 1209600 3600
+      *.localbuk.       IN A   192.168.0.175
+      *.*.localbuk.     IN A   192.168.0.175
+      *.*.*.localbuk.   IN A   192.168.0.175
+      *.*.*.*.localbuk. IN A   192.168.0.175
 #  - filename: example.db
 #    domain: example.com
 #    contents: |
