@@ -55,7 +55,7 @@ spec:
             password: r8sA8CPHD9!bt6d
             email: "gitea@local.domain"
 
-    targetRevision: 6.0.2
+    targetRevision: 6.0.5
   syncPolicy:
     automated:
       prune: false
