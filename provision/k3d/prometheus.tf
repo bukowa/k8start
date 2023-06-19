@@ -3,7 +3,7 @@ resource "helm_release" "prom_stack" {
   repository = "https://prometheus-community.github.io/helm-charts"
   chart = "kube-prometheus-stack"
   name  = "promstack"
-  version = "40.3.1"
+  version = "40.5.0"
   namespace = "logging"
   create_namespace = true
   values = [file(yamldecode("grafana.yaml"))]
