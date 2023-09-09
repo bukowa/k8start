@@ -13,7 +13,7 @@ spec:
   source:
     chart: ingress-nginx
     repoURL: https://kubernetes.github.io/ingress-nginx
-    targetRevision: 4.3.0
+    targetRevision: 4.7.2
     helm:
       releaseName: {{ .Release.Name }}-ingress-nginx
       {{- template "argo.helm.values" index .Values.ingress.providers .Values.ingress.provider }}
